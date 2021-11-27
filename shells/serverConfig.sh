@@ -33,7 +33,6 @@ status /var/log/openvpn/openvpn-status.log
 log-append  /var/log/openvpn/openvpn.log
 verb 6" > "${OVPN_DIR}"/server.conf 
 
-# TODO: buat agar bisa bedain antara user pengen redirect gateway atau enggak
 if [[ "${OVPN_SERVER_AS_GATEWAY}" == 'true' ]]
 then
     echo "push \"redirect-gateway def1 bypass-dhcp\"" >> "${OVPN_DIR}"/server.conf 
@@ -43,10 +42,6 @@ if [[ "${OVPN_PROTOCOL}" == 'tcp' ]]
 then
     echo "explicit-exit-notify 0" >> "${OVPN_DIR}"/server.conf 
 fi
-
-
-# ${OVPN_SERVER_AS_GATEWAY}
-# TODO: buat agar bisa bedain antara user login via userpass atau via sertifikat aja
 
 echo "
 push \"route 192.168.3.0 255.255.255.0\"

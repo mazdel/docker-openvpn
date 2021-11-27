@@ -1,9 +1,5 @@
 #!/bin/bash
 
-# tar xvf EasyRSA-unix-v3.0.6.tgz 
-# mv -v EasyRSA-v3.0.6 "/opt/easyrsa" 
-# rm EasyRSA-unix-v3.0.6.tgz
-
 /opt/easyrsa/easyrsa init-pki
 /opt/easyrsa/easyrsa --batch build-ca nopass 
 /opt/easyrsa/easyrsa build-server-full "$OVPN_SERVER_NAME" nopass 

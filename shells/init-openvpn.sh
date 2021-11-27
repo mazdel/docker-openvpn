@@ -13,6 +13,5 @@ ln -s `pwd`/generateClientConfig.sh /usr/bin/
 
 openvpn --config ${OVPN_DIR}/server.conf
 
-#this line prevent docker to stop immediately
 exec "$@"
-#while getopts 
+
