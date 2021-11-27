@@ -1,4 +1,5 @@
 #!/bin/bash
+echo "creating user base config"
 
 mkdir -p -v "$OVPN_CLIENT_DIR/keys" "$OVPN_CLIENT_DIR/files" "${OVPN_CLIENT_CCD}"
 
@@ -20,3 +21,8 @@ verb 6
 key-direction 1
 ">${OVPN_CLIENT_DIR}/base.conf
 
+if [[ ${OVPN_CLIENT_MODE} == "userpass" ]]
+then
+  echo -e "auth-user-pass\n" >> ${OVPN_CLIENT_DIR}/base.conf
+fi
+echo "client base config done"

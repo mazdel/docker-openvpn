@@ -1,4 +1,5 @@
 #!/bin/bash
+AUTHPAM_PLUGIN=`find /usr/lib -name "*openvpn-plugin-auth-pam.so"`;
 
 bash generateServerCertificate.sh
 
@@ -19,7 +20,6 @@ push \"dhcp-option DNS ${OVPN_SERVER_DNS}\"
 
 client-config-dir ${OVPN_CLIENT_CCD}
 client-to-client
-duplicate-cn
 keepalive 10 60
 tls-auth ${OVPN_DIR}/ta.key 0 # This file is secret
 cipher AES-256-CBC
@@ -33,20 +33,35 @@ status /var/log/openvpn/openvpn-status.log
 log-append  /var/log/openvpn/openvpn.log
 verb 6" > "${OVPN_DIR}"/server.conf 
 
-# TODO: buat agar bisa bedain antara user pengen redirect gateway atau enggak
+if [[ "${OVPN_CLIENT_UNIQUE}" == 'false' ]]
+then
+    echo "duplicate-cn" >> "${OVPN_DIR}"/server.conf
+fi
+
 if [[ "${OVPN_SERVER_AS_GATEWAY}" == 'true' ]]
 then
     echo "push \"redirect-gateway def1 bypass-dhcp\"" >> "${OVPN_DIR}"/server.conf 
 fi
+
 
 if [[ "${OVPN_PROTOCOL}" == 'tcp' ]]
 then
     echo "explicit-exit-notify 0" >> "${OVPN_DIR}"/server.conf 
 fi
 
-
-# ${OVPN_SERVER_AS_GATEWAY}
 # TODO: buat agar bisa bedain antara user login via userpass atau via sertifikat aja
+
+if [[ ${OVPN_CLIENT_MODE} == "userpass" ]]
+then
+    echo -e "plugin ${AUTHPAM_PLUGIN} login\n
+    client-cert-not-required\n
+    username-as-common-name\n
+    " >> "${OVPN_DIR}"/server.conf
+
+    groupadd openvpn
+
+fi
+
 
 echo "
 push \"route 192.168.3.0 255.255.255.0\"
@@ -57,4 +72,4 @@ push \"topology subnet\"
 
 iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 
-echo "configuration ready"
+echo "server configuration ready"
