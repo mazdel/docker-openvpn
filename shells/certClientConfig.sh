@@ -31,3 +31,4 @@ do
 done
 
 echo "client ${CLIENT_NAME}.ovpn is ready"
+echo "client config generated"

@@ -10,14 +10,15 @@ CLIENT_PASS=${2:-$OVPN_CLIENT_PASS}
 
 cp "${EASYRSA_PKI}/ca.crt" "${EASYRSA_PKI}/ta.key" "$OVPN_CLIENT_DIR/keys"
 
-#check if user exist or create login new user
 if getent passwd "${OVPN_CLIENT_NAME}" > /dev/null
 then
-    echo "user already exist, can't create new user"
+    echo ">>> user already exist, can't create new user <<<"
 else
     echo "${OVPN_CLIENT_NAME}:${OVPN_CLIENT_PASS}::openvpn:::/bin/false" | newusers
     echo "done creating ${OVPN_CLIENT_NAME} as new user"
 fi
+
+# references, noob here is giving thanks to the authors
 # https://www.tecmint.com/create-multiple-user-accounts-in-linux/
 # https://www.cyberciti.biz/tips/linux-how-to-create-multiple-users-accounts-in-batch.html
 # https://stackoverflow.com/questions/714915/using-the-passwd-command-from-within-a-shell-script
@@ -30,3 +31,6 @@ cat ${BASE_CONFIG} \
     ${KEY_DIR}/ta.key \
     <(echo -e '</tls-auth>') \
     > ${OUTPUT_DIR}/${CLIENT_NAME}.ovpn
+
+echo "client ${CLIENT_NAME}.ovpn is ready"
+echo "client config generated"

@@ -49,17 +49,14 @@ then
     echo "explicit-exit-notify 0" >> "${OVPN_DIR}"/server.conf 
 fi
 
-# TODO: buat agar bisa bedain antara user login via userpass atau via sertifikat aja
-
 if [[ ${OVPN_CLIENT_MODE} == "userpass" ]]
 then
     echo -e "plugin ${AUTHPAM_PLUGIN} login\n
     client-cert-not-required\n
     username-as-common-name\n
     " >> "${OVPN_DIR}"/server.conf
-
+    
     groupadd openvpn
-
 fi
 
 

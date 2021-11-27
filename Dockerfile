@@ -44,7 +44,7 @@ RUN wget https://github.com/OpenVPN/easy-rsa/releases/download/v3.0.6/EasyRSA-un
 
 COPY shells/* ./
 
-RUN chmod +x init-openvpn.sh
+RUN chmod +x *.sh
 
 EXPOSE 1149/udp
 EXPOSE 1194/tcp

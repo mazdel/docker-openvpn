@@ -4,6 +4,9 @@ echo "begin generating client config"
 CLIENT_NAME=${1:-$OVPN_CLIENT_NAME}
 CLIENT_PASS=${2:-$OVPN_CLIENT_PASS}
 
+LAST_PWD=`pwd`;
+
+cd /opt
 if [[ ${OVPN_CLIENT_MODE} == "cert" ]]
 then
     echo "using certificate"
@@ -14,4 +17,5 @@ then
     echo "using auth pam"
     bash userpassClientConfig.sh ${CLIENT_NAME} ${CLIENT_PASS}
 fi
-echo "client config generated"
+
+cd ${LAST_PWD}
