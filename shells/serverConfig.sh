@@ -33,6 +33,8 @@ status /var/log/openvpn/openvpn-status.log
 log-append  /var/log/openvpn/openvpn.log
 verb 6" > "${OVPN_DIR}"/server.conf 
 
+# TODO :    buat pilihan untuk konfigurasi auth dan tls-auth
+
 if [[ "${OVPN_CLIENT_UNIQUE}" == 'false' ]]
 then
     echo "duplicate-cn" >> "${OVPN_DIR}"/server.conf

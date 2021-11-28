@@ -10,12 +10,12 @@ CLIENT_PASS=${2:-$OVPN_CLIENT_PASS}
 
 cp "${EASYRSA_PKI}/ca.crt" "${EASYRSA_PKI}/ta.key" "$OVPN_CLIENT_DIR/keys"
 
-if getent passwd "${OVPN_CLIENT_NAME}" > /dev/null
+if getent passwd "${CLIENT_NAME}" > /dev/null
 then
-    echo ">>> user already exist, can't create new user <<<"
+    echo ">>> user ${CLIENT_NAME} already exist, can't create new user <<<"
 else
-    echo "${OVPN_CLIENT_NAME}:${OVPN_CLIENT_PASS}::openvpn:::/bin/false" | newusers
-    echo "done creating ${OVPN_CLIENT_NAME} as new user"
+    echo "${CLIENT_NAME}:${CLIENT_PASS}::openvpn:::/bin/false" | newusers
+    echo "done creating ${CLIENT_NAME} as new user"
 fi
 
 # references, noob here is giving thanks to the authors
