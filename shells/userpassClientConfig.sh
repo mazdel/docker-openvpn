@@ -18,19 +18,19 @@ else
     echo "done creating ${CLIENT_NAME} as new user"
 fi
 
-# references, noob here is giving thanks to the authors
-# https://www.tecmint.com/create-multiple-user-accounts-in-linux/
-# https://www.cyberciti.biz/tips/linux-how-to-create-multiple-users-accounts-in-batch.html
-# https://stackoverflow.com/questions/714915/using-the-passwd-command-from-within-a-shell-script
-# https://ccm.net/faq/790-changing-password-via-a-script
-
 cat ${BASE_CONFIG} \
     <(echo -e '<ca>') \
     ${KEY_DIR}/ca.crt \
-    <(echo -e '</ca>\n<tls-auth>') \
-    ${KEY_DIR}/ta.key \
-    <(echo -e '</tls-auth>') \
+    <(echo -e '</ca>')\
     > ${OUTPUT_DIR}/${CLIENT_NAME}.ovpn
+
+if [[ "${OVPN_SERVER_USETLS}" == 'true' ]]
+then
+    cat <(echo -e '<tls-auth>') \
+        ${KEY_DIR}/ta.key \
+        <(echo -e '</tls-auth>') \
+        >> ${OUTPUT_DIR}/${CLIENT_NAME}.ovpn
+fi
 
 echo "client ${CLIENT_NAME}.ovpn is ready"
 echo "client config generated"

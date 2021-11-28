@@ -23,10 +23,16 @@ do
             ${KEY_DIR}/${clientCname}.crt \
             <(echo -e '</cert>\n<key>') \
             ${KEY_DIR}/${clientCname}.key \
-            <(echo -e '</key>\n<tls-auth>') \
-            ${KEY_DIR}/ta.key \
-            <(echo -e '</tls-auth>') \
+            <(echo -e '</key>')\
             > ${OUTPUT_DIR}/${clientCname}.ovpn
+            
+        if [[ "${OVPN_SERVER_USETLS}" == 'true' ]]
+        then
+            cat <(echo -e '<tls-auth>') \
+                ${KEY_DIR}/ta.key \
+                <(echo -e '</tls-auth>') \
+                >> ${OUTPUT_DIR}/${clientCname}.ovpn
+        fi
     fi
 done
 

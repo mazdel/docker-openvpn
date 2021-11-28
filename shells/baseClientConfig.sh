@@ -15,7 +15,7 @@ persist-key
 persist-tun
 remote-cert-tls server
 cipher AES-256-CBC
-auth SHA256
+auth ${OVPN_SERVER_AUTH:-SHA256}
 comp-lzo
 verb 6
 key-direction 1

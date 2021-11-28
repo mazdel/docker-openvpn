@@ -12,10 +12,10 @@ then
     bash baseClientConfig.sh
     bash generateClient.sh    
     ln -s `pwd`/generateClient.sh /usr/bin/
+    echo "all configuration done"
 fi
 
 iptables-restore < /etc/iptables/rules.v4
 openvpn --config ${OVPN_DIR}/server.conf
 
 exec "$@"
-#commit message "change generateClientConfig.sh -> generateClient.sh so it would be shorter and ez to remember it"

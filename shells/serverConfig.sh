@@ -3,7 +3,14 @@ AUTHPAM_PLUGIN=`find /usr/lib -name "*openvpn-plugin-auth-pam.so"`;
 
 bash generateServerCertificate.sh
 
-echo "port 1194
+if [[ "${OVPN_PROTOCOL}" == 'tcp' ]]
+then 
+    OVPN_PORT=1194
+else
+    OVPN_PORT=1149
+fi
+
+echo "port ${OVPN_PORT}
 proto ${OVPN_PROTOCOL}
 dev tun
 ca ${OVPN_DIR}/ca.crt
@@ -21,9 +28,8 @@ push \"dhcp-option DNS ${OVPN_SERVER_DNS}\"
 client-config-dir ${OVPN_CLIENT_CCD}
 client-to-client
 keepalive 10 60
-tls-auth ${OVPN_DIR}/ta.key 0 # This file is secret
 cipher AES-256-CBC
-auth SHA256
+auth ${OVPN_SERVER_AUTH:-SHA256}
 comp-lzo
 user nobody
 group nogroup
@@ -34,6 +40,10 @@ log-append  /var/log/openvpn/openvpn.log
 verb 6" > "${OVPN_DIR}"/server.conf 
 
 # TODO :    buat pilihan untuk konfigurasi auth dan tls-auth
+if [[ "${OVPN_SERVER_USETLS}" == 'true' ]]
+then
+    echo "tls-auth ${OVPN_DIR}/ta.key 0 #" >> "${OVPN_DIR}"/server.conf
+fi
 
 if [[ "${OVPN_CLIENT_UNIQUE}" == 'false' ]]
 then
@@ -53,10 +63,10 @@ fi
 
 if [[ ${OVPN_CLIENT_MODE} == "userpass" ]]
 then
-    echo -e "plugin ${AUTHPAM_PLUGIN} login\n
-    client-cert-not-required\n
-    username-as-common-name\n
-    " >> "${OVPN_DIR}"/server.conf
+    echo -e "plugin ${AUTHPAM_PLUGIN} login
+client-cert-not-required
+username-as-common-name
+" >> "${OVPN_DIR}"/server.conf
     
     groupadd openvpn
 fi
