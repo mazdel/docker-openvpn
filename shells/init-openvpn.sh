@@ -10,14 +10,12 @@ if [ ! -f ${EASYRSA_PKI}/ca.crt ]
 then 
     bash serverConfig.sh
     bash baseClientConfig.sh
-    bash generateClientConfig.sh    
-    ln -s `pwd`/generateClientConfig.sh /usr/bin/
+    bash generateClient.sh    
+    ln -s `pwd`/generateClient.sh /usr/bin/
 fi
 
-# TODO :    buat ketika server openvpn belum jalan maka jalankan iptables dibawah ini dulu
 iptables-restore < /etc/iptables/rules.v4
 openvpn --config ${OVPN_DIR}/server.conf
 
 exec "$@"
-
-#commit message "fix iptables got reset each container restarted"
+#commit message "change generateClientConfig.sh -> generateClient.sh so it would be shorter and ez to remember it"
