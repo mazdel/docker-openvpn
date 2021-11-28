@@ -12,10 +12,17 @@ then
     echo "using certificate"
     bash certClientConfig.sh ${CLIENT_NAME}
 fi
+
 if [[ ${OVPN_CLIENT_MODE} == "userpass" ]]
 then
     echo "using auth pam"
     bash userpassClientConfig.sh ${CLIENT_NAME} ${CLIENT_PASS}
+fi
+
+if [[ "${OVPN_CLIENT_UNIQUE}" == 'true' ]]
+then
+    echo "" > ${OVPN_CLIENT_CCD}/${CLIENT_NAME}
+    echo "config \"`ls ${OVPN_CLIENT_CCD}/${CLIENT_NAME}`\" created"
 fi
 
 cd ${LAST_PWD}
