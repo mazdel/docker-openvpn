@@ -14,8 +14,10 @@ then
     ln -s `pwd`/generateClientConfig.sh /usr/bin/
 fi
 
+# TODO :    buat ketika server openvpn belum jalan maka jalankan iptables dibawah ini dulu
+iptables-restore < /etc/iptables/rules.v4
 openvpn --config ${OVPN_DIR}/server.conf
 
 exec "$@"
 
-#commit message "remove unnecessary comments, fix bash shell is executed again when we restart the container"
+#commit message "fix iptables got reset each container restarted"

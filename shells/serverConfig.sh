@@ -70,5 +70,6 @@ push \"topology subnet\"
 " > "${OVPN_DIR}"/route.conf
 
 iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+iptables-save > /etc/iptables/rules.v4
 
 echo "server configuration ready"
