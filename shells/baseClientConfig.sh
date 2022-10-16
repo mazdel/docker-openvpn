@@ -14,15 +14,27 @@ group nogroup
 persist-key
 persist-tun
 remote-cert-tls server
-cipher AES-256-CBC
+cipher ${OVPN_SERVER_CIPHER:-'AES-256-CBC'}
 auth ${OVPN_SERVER_AUTH:-SHA256}
-comp-lzo
 verb 6
 key-direction 1
 ">${OVPN_CLIENT_DIR}/base.conf
 
+if [[ "${OVPN_CLIENT_COMPRESS}" == 'true' ]]
+then
+    echo "comp-lzo" >> ${OVPN_CLIENT_DIR}/base.conf
+fi
+
 if [[ ${OVPN_CLIENT_MODE} == "userpass" ]]
 then
+  echo -e "auth-nocache\n" >> ${OVPN_CLIENT_DIR}/base.conf
   echo -e "auth-user-pass\n" >> ${OVPN_CLIENT_DIR}/base.conf
 fi
+
+if [[ ${OVPN_CLIENT_MODE} == "userpasswithcert" ]]
+then
+  echo -e "auth-nocache\n" >> ${OVPN_CLIENT_DIR}/base.conf
+  echo -e "auth-user-pass\n" >> ${OVPN_CLIENT_DIR}/base.conf
+fi
+
 echo "client base config done"

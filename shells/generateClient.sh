@@ -1,5 +1,5 @@
 #!/bin/bash
-echo "begin generating client config"
+echo "begin generating client config with mode << ${OVPN_CLIENT_MODE} >>"
 
 CLIENT_NAME=${1:-$OVPN_CLIENT_NAME}
 CLIENT_PASS=${2:-$OVPN_CLIENT_PASS}
@@ -7,9 +7,9 @@ CLIENT_PASS=${2:-$OVPN_CLIENT_PASS}
 LAST_PWD=`pwd`;
 
 cd /opt
-if [[ ${OVPN_CLIENT_MODE} == "cert" ]]
+if [[ ${OVPN_CLIENT_MODE} == "onlycert" ]]
 then
-    echo "using certificate"
+    echo "using certificate only"
     bash certClientConfig.sh ${CLIENT_NAME}
 fi
 
@@ -18,6 +18,13 @@ then
     echo "using auth pam"
     bash userpassClientConfig.sh ${CLIENT_NAME} ${CLIENT_PASS}
 fi
+
+if [[ ${OVPN_CLIENT_MODE} == "userpasswithcert" ]]
+then
+    echo "using auth pam"
+    bash userpassCertClientConfig.sh ${CLIENT_NAME} ${CLIENT_PASS}
+fi
+
 
 if [[ "${OVPN_CLIENT_UNIQUE}" == 'true' ]]
 then

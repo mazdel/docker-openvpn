@@ -28,9 +28,8 @@ push \"dhcp-option DNS ${OVPN_SERVER_DNS}\"
 client-config-dir ${OVPN_CLIENT_CCD}
 client-to-client
 keepalive 10 60
-cipher AES-256-CBC
+cipher ${OVPN_SERVER_CIPHER:-'AES-256-CBC'}
 auth ${OVPN_SERVER_AUTH:-SHA256}
-comp-lzo
 user nobody
 group nogroup
 persist-key
@@ -38,6 +37,12 @@ persist-tun
 status /var/log/openvpn/openvpn-status.log
 log-append  /var/log/openvpn/openvpn.log
 verb 6" > "${OVPN_DIR}"/server.conf 
+
+
+if [[ "${OVPN_CLIENT_COMPRESS}" == 'true' ]]
+then
+    echo "comp-lzo" >> "${OVPN_DIR}"/server.conf
+fi
 
 # TODO :    buat pilihan untuk konfigurasi auth dan tls-auth
 if [[ "${OVPN_SERVER_USETLS}" == 'true' ]]
@@ -67,10 +72,15 @@ then
 client-cert-not-required
 username-as-common-name
 " >> "${OVPN_DIR}"/server.conf
-    
-    groupadd openvpn
 fi
 
+# if [[ ${OVPN_CLIENT_MODE} == "userpasswithcert" ]]
+# then
+#     echo -e "plugin ${AUTHPAM_PLUGIN} login
+# username-as-common-name
+# " >> "${OVPN_DIR}"/server.conf
+# fi
+# TODO : give condition if client want to connect using cert and authpass
 
 echo "
 push \"route 192.168.3.0 255.255.255.0\"
@@ -78,8 +88,10 @@ push \"route 192.168.7.0 255.255.255.0\"
 push \"route 172.17.0.0 255.255.0.0\"
 push \"topology subnet\"
 " > "${OVPN_DIR}"/route.conf
-
+groupadd openvpn
 iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 iptables-save > /etc/iptables/rules.v4
 
 echo "server configuration ready"
+
+#commit message => fix feature, we can choose what type of auth we gonna use ( bcbf37 )

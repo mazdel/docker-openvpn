@@ -10,7 +10,7 @@ if [ ! -f ${EASYRSA_PKI}/ca.crt ]
 then 
     bash serverConfig.sh
     bash baseClientConfig.sh
-    bash generateClient.sh    
+    bash generateClient.sh
     ln -s `pwd`/generateClient.sh /usr/bin/
     echo "all configuration done"
 fi
