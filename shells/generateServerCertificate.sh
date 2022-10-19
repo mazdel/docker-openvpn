@@ -8,4 +8,4 @@ openvpn --genkey --secret "$EASYRSA_PKI/ta.key"
 mkdir -p -v "/opt" 
 cp "${EASYRSA_PKI}/ca.crt" "${EASYRSA_PKI}/dh.pem" "${EASYRSA_PKI}/ta.key" "${EASYRSA_PKI}/issued/${OVPN_SERVER_NAME}.crt" "${EASYRSA_PKI}/private/${OVPN_SERVER_NAME}.key" "${OVPN_DIR}" 
 
-echo "server certificate ready"
+echo $(date +"%F %T")" > server certificate ready"

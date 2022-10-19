@@ -1,5 +1,5 @@
 #!/bin/bash
-echo "begin generating client config with mode << ${OVPN_CLIENT_MODE} >>"
+echo $(date +"%F %T")" > begin generating client config with mode << ${OVPN_CLIENT_MODE} >>"
 
 CLIENT_NAME=${1:-$OVPN_CLIENT_NAME}
 CLIENT_PASS=${2:-$OVPN_CLIENT_PASS}
@@ -29,7 +29,7 @@ fi
 if [[ "${OVPN_CLIENT_UNIQUE}" == 'true' ]]
 then
     echo "" > ${OVPN_CLIENT_CCD}/${CLIENT_NAME}
-    echo "config \"`ls ${OVPN_CLIENT_CCD}/${CLIENT_NAME}`\" created"
+    echo $(date +"%F %T")" > config \"`ls ${OVPN_CLIENT_CCD}/${CLIENT_NAME}`\" created"
 fi
 
 cd ${LAST_PWD}

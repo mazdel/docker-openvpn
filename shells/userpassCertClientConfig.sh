@@ -11,7 +11,7 @@ CLIENT_PASS=${2:-$OVPN_CLIENT_PASS}
 
 if getent passwd "${CLIENT_NAME}" > /dev/null
 then
-    echo ">>> user ${CLIENT_NAME} already exist, can't create new user <<<"
+    echo $(date +"%F %T")" >>> user ${CLIENT_NAME} already exist, can't create new user <<<"
 else
 
     /opt/easyrsa/easyrsa build-client-full "$CLIENT_NAME" nopass 
@@ -20,7 +20,7 @@ else
     /usr/bin/openssl rsa -in "$OVPN_CLIENT_DIR/keys/$CLIENT_NAME.key" -text > "$OVPN_CLIENT_DIR/keys/$CLIENT_NAME.key.pem"
 
     echo "${CLIENT_NAME}:${CLIENT_PASS}::openvpn:::/bin/false" | newusers
-    echo "done creating ${CLIENT_NAME} as new user"
+    echo $(date +"%F %T")" > done creating ${CLIENT_NAME} as new unix user"
 
     cat ${BASE_CONFIG} \
             <(echo -e '<ca>') \
@@ -39,7 +39,7 @@ else
             <(echo -e '</tls-auth>') \
             >> ${OUTPUT_DIR}/${CLIENT_NAME}.ovpn
     fi
-    echo "done, client ${CLIENT_NAME}.ovpn is ready"
+    echo $(date +"%F %T")" > done, client ${CLIENT_NAME}.ovpn is ready"
 fi
 
-echo "client config generated"
+echo $(date +"%F %T")" > client config generated"

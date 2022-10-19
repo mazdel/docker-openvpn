@@ -4,7 +4,8 @@
 mkdir -p -v /dev/net
 mknod /dev/net/tun c 10 200
 chmod 600 /dev/net/tun
-echo "device created"
+ls -lh /dev/net
+echo $(date +"%F %T")" > tun device created"
 
 if [ ! -f ${EASYRSA_PKI}/ca.crt ]
 then 
@@ -12,7 +13,7 @@ then
     bash baseClientConfig.sh
     bash generateClient.sh
     ln -s `pwd`/generateClient.sh /usr/bin/
-    echo "all configuration done"
+    echo $(date +"%F %T")" > all configuration done"
 fi
 
 iptables-restore < /etc/iptables/rules.v4

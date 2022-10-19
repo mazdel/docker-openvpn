@@ -92,6 +92,6 @@ groupadd openvpn
 iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 iptables-save > /etc/iptables/rules.v4
 
-echo "server configuration ready"
+echo $(date +"%F %T")" > server configuration ready"
 
 #commit message => fix feature, we can choose what type of auth we gonna use ( bcbf37 )
