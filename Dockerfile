@@ -42,10 +42,14 @@ ENV EASYRSA_REQ_COUNTRY="ID" \
 
 WORKDIR /opt
 
-RUN wget https://github.com/OpenVPN/easy-rsa/releases/download/v3.0.6/EasyRSA-unix-v3.0.6.tgz\
-	&& tar xvf EasyRSA-unix-v3.0.6.tgz \
-	&& mv -v EasyRSA-v3.0.6 "/opt/easyrsa" \
-	&& rm EasyRSA-unix-v3.0.6.tgz
+RUN wget https://github.com/OpenVPN/easy-rsa/releases/download/v3.1.1/EasyRSA-3.1.1.tgz\
+	&& tar xvf EasyRSA-3.1.1.tgz \
+	&& mv -v EasyRSA-3.1.1 "/opt/easyrsa" \
+	&& rm EasyRSA-3.1.1.tgz
+
+# RUN THIS TO FIX EASYRSA bug on EasyRSA-3.1.1
+# read more at https://github.com/OpenVPN/easy-rsa/issues/725
+RUN wget https://github.com/OpenVPN/easy-rsa/raw/master/easyrsa3/easyrsa -O "/opt/easyrsa/easyrsa"
 
 COPY shells/* ./
 

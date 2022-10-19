@@ -14,7 +14,7 @@ then
     echo $(date +"%F %T")" >>> user ${CLIENT_NAME} already exist, can't create new user <<<"
 else
 
-    /opt/easyrsa/easyrsa build-client-full "$CLIENT_NAME" nopass 
+    /opt/easyrsa/easyrsa --batch build-client-full "$CLIENT_NAME" nopass 
     cp "${EASYRSA_PKI}/ca.crt" "${EASYRSA_PKI}/ta.key" "${EASYRSA_PKI}/issued/$CLIENT_NAME.crt" "${EASYRSA_PKI}/private/$CLIENT_NAME.key" "$OVPN_CLIENT_DIR/keys"
     /usr/bin/openssl x509 -in "$OVPN_CLIENT_DIR/keys/$CLIENT_NAME.crt" -out "$OVPN_CLIENT_DIR/keys/$CLIENT_NAME.crt.pem" -outform PEM
     /usr/bin/openssl rsa -in "$OVPN_CLIENT_DIR/keys/$CLIENT_NAME.key" -text > "$OVPN_CLIENT_DIR/keys/$CLIENT_NAME.key.pem"

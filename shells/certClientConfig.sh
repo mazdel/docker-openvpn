@@ -7,7 +7,7 @@ OUTPUT_DIR=${OVPN_CLIENT_DIR}/files
 BASE_CONFIG=${OVPN_CLIENT_DIR}/base.conf
 CLIENT_NAME=${1:-$OVPN_CLIENT_NAME}
 
-/opt/easyrsa/easyrsa build-client-full "$CLIENT_NAME" nopass 
+/opt/easyrsa/easyrsa --batch build-client-full "$CLIENT_NAME" nopass 
 cp "${EASYRSA_PKI}/ca.crt" "${EASYRSA_PKI}/ta.key" "${EASYRSA_PKI}/issued/$CLIENT_NAME.crt" "${EASYRSA_PKI}/private/$CLIENT_NAME.key" "$OVPN_CLIENT_DIR/keys"
 
 /usr/bin/openssl x509 -in "$OVPN_CLIENT_DIR/keys/$CLIENT_NAME.crt" -out "$OVPN_CLIENT_DIR/keys/$CLIENT_NAME.crt.pem" -outform PEM
