@@ -16,6 +16,7 @@ ENV OVPN_DIR="/opt/openvpn" \
 	OVPN_SERVER_AUTH="SHA256"\
 	OVPN_SERVER_USETLS="true"\
 	OVPN_SERVER_AS_GATEWAY="false" \
+	OVPN_SERVER_MANAGEMENT="disabled" \
 	OVPN_CLIENT_NAME="ovpnclient" \
 	OVPN_CLIENT_PASS="nopass"
 

@@ -82,6 +82,11 @@ fi
 # fi
 # TODO : give condition if client want to connect using cert and authpass
 
+if [[ ${OVPN_SERVER_MANAGEMENT} != "disabled" ]]
+then
+    echo -e "management ${OVPN_SERVER_MANAGEMENT}" >> "${OVPN_DIR}"/server.conf
+fi
+
 echo "
 push \"route 192.168.3.0 255.255.255.0\"
 push \"route 192.168.7.0 255.255.255.0\"
