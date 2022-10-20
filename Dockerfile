@@ -51,7 +51,8 @@ RUN wget https://github.com/OpenVPN/easy-rsa/releases/download/v3.1.1/EasyRSA-3.
 # read more at https://github.com/OpenVPN/easy-rsa/issues/725
 RUN wget https://github.com/OpenVPN/easy-rsa/raw/master/easyrsa3/easyrsa -O "/opt/easyrsa/easyrsa"
 
-COPY shells/* ./
+COPY shells/*.sh ./
+COPY shells/helper/*.sh ./helper/
 
 RUN chmod +x *.sh
 

@@ -12,10 +12,10 @@ cp "${EASYRSA_PKI}/ca.crt" "${EASYRSA_PKI}/ta.key" "$OVPN_CLIENT_DIR/keys"
 
 if getent passwd "${CLIENT_NAME}" > /dev/null
 then
-    echo $(date +"%F %T")" >>> user ${CLIENT_NAME} already exist, can't create new user <<<"
+    echo -e "\n"$(date +"%F %T")" >>> user ${CLIENT_NAME} already exist, can't create new user <<<"
 else
     echo "${CLIENT_NAME}:${CLIENT_PASS}::openvpn:::/bin/false" | newusers
-    echo $(date +"%F %T")" > done creating ${CLIENT_NAME} as new unix user"
+    echo -e "\n"$(date +"%F %T")" > done creating ${CLIENT_NAME} as new unix user"
 fi
 
 cat ${BASE_CONFIG} \
@@ -32,5 +32,5 @@ then
         >> ${OUTPUT_DIR}/${CLIENT_NAME}.ovpn
 fi
 
-echo $(date +"%F %T")" > client ${CLIENT_NAME}.ovpn is ready"
-echo $(date +"%F %T")" > client config generated"
+echo -e "\n"$(date +"%F %T")" > client ${CLIENT_NAME}.ovpn is ready"
+echo -e "\n"$(date +"%F %T")" > client config generated"

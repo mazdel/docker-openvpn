@@ -33,5 +33,5 @@ then
 fi
 
 
-echo $(date +"%F %T")" > client ${CLIENT_NAME}.ovpn is ready"
-echo $(date +"%F %T")" > client config generated"
+echo -e "\n"$(date +"%F %T")" > client ${CLIENT_NAME}.ovpn is ready"
+echo -e "\n"$(date +"%F %T")" > client config generated"

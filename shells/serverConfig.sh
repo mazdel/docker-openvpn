@@ -1,7 +1,7 @@
 #!/bin/bash
 AUTHPAM_PLUGIN=`find /usr/lib -name "*openvpn-plugin-auth-pam.so"`;
 
-bash generateServerCertificate.sh
+bash ./helper/generateServerCertificate.sh
 
 if [[ "${OVPN_PROTOCOL}" == 'tcp' ]]
 then 
