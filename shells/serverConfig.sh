@@ -74,13 +74,12 @@ username-as-common-name
 " >> "${OVPN_DIR}"/server.conf
 fi
 
-# if [[ ${OVPN_CLIENT_MODE} == "userpasswithcert" ]]
-# then
-#     echo -e "plugin ${AUTHPAM_PLUGIN} login
-# username-as-common-name
-# " >> "${OVPN_DIR}"/server.conf
-# fi
-# TODO : give condition if client want to connect using cert and authpass
+if [[ ${OVPN_CLIENT_MODE} == "userpasswithcert" ]]
+then
+    echo -e "plugin ${AUTHPAM_PLUGIN} login
+username-as-common-name
+" >> "${OVPN_DIR}"/server.conf
+fi
 
 if [[ ${OVPN_SERVER_MANAGEMENT} != "disabled" ]]
 then
